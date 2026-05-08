@@ -1,84 +1,84 @@
 # Edge-Native Full-Stack Scaffolder
 
-这是一个基于 **Bun Workspaces + Turborepo** 构建的现代化、极速、类型安全的企业级全栈脚手架。专为 Cloudflare 边缘计算环境 (Edge Runtime) 设计。
+A modern, blazing-fast, and type-safe enterprise full-stack scaffolder built with **Bun Workspaces + Turborepo**. Designed specifically for Cloudflare Edge environments (Edge Runtime).
 
-## 🌟 核心架构与技术栈
+## 🌟 Core Architecture & Tech Stack
 
-本项目采用 Monorepo 架构，实现了从数据库到前端 UI 的 **100% 端到端类型安全 (End-to-End Type Safety)**。
+This project utilizes a Monorepo architecture to achieve **100% End-to-End Type Safety** from the database up to the frontend UI.
 
-### 基础设施
-- **包管理与运行**: [Bun](https://bun.sh/) (极致的安装与执行速度)
-- **Monorepo 编排**: [Turborepo](https://turbo.build/repo) (智能构建缓存与并发任务执行)
+### Infrastructure
+- **Package Manager & Runtime**: [Bun](https://bun.sh/) (Extreme installation and execution speed)
+- **Monorepo Orchestration**: [Turborepo](https://turbo.build/repo) (Smart build caching and concurrent task execution)
 
-### 后端 API (`apps/api`)
-- **框架**: [Hono.js](https://hono.dev/) + `@hono/zod-openapi` (自动生成 OpenAPI 文档)
-- **数据库**: [Neon (Serverless Postgres)](https://neon.tech/) + [Drizzle ORM](https://orm.drizzle.team/)
-- **身份认证**: [Better Auth](https://www.better-auth.com/)
+### Backend API (`apps/api`)
+- **Framework**: [Hono.js](https://hono.dev/) + `@hono/zod-openapi` (Auto-generated OpenAPI documentation)
+- **Database**: [Neon (Serverless Postgres)](https://neon.tech/) + [Drizzle ORM](https://orm.drizzle.team/)
+- **Authentication**: [Better Auth](https://www.better-auth.com/)
 
-### 前端 Web (`apps/web`)
-- **元框架**: [TanStack Start](https://tanstack.com/start) (React 19, 全栈 SSR)
-- **路由与数据预取**: TanStack Router + TanStack Query v5
-- **UI 与样式**: [Tailwind CSS v4](https://tailwindcss.com/blog/tailwindcss-v4-alpha) + [HeroUI v3](https://v3.heroui.com/)
-- **表单与验证**: `@tanstack/react-form` + Zod (复用后端 Schema)
+### Frontend Web (`apps/web`)
+- **Meta-Framework**: [TanStack Start](https://tanstack.com/start) (React 19, Full-stack SSR)
+- **Routing & Data Fetching**: TanStack Router + TanStack Query v5
+- **UI & Styling**: [Tailwind CSS v4](https://tailwindcss.com/blog/tailwindcss-v4-alpha) + [HeroUI v3](https://v3.heroui.com/)
+- **Forms & Validation**: `@tanstack/react-form` + Zod (Reusing backend Schemas)
 
 ---
 
-## 🚀 快速上手 (Tutorial)
+## 🚀 Quick Start (Tutorial)
 
-### 1. 环境准备
-请确保你的机器上已安装最新版本的 [Bun](https://bun.sh/)。
-本脚手架依赖于 PostgreSQL 数据库（推荐使用 Neon DB）。
+### 1. Prerequisites
+Ensure you have the latest version of [Bun](https://bun.sh/) installed on your machine.
+This scaffolder relies on a PostgreSQL database (Neon DB is recommended).
 
-### 2. 安装依赖
-在项目根目录执行：
+### 2. Install Dependencies
+Run the following in the project root:
 ```bash
 bun install
 ```
 
-### 3. 环境配置
-分别进入 `apps/api` 和 `apps/web` 目录，复制环境变量模板：
+### 3. Environment Configuration
+Navigate to `apps/api` and `apps/web` respectively to copy the environment templates:
 ```bash
 cp apps/api/.env.example apps/api/.env
-# 请在 apps/api/.env 中填入你的 DATABASE_URL 和 BETTER_AUTH_SECRET
+# Fill in your DATABASE_URL and BETTER_AUTH_SECRET in apps/api/.env
 
 cp apps/web/.env.example apps/web/.env
 ```
 
-### 4. 数据库初始化 (Migrate & Seed)
-进入 API 目录，将 Schema 推送至数据库，并填充初始的“黄金示例(Regions)”数据：
+### 4. Database Initialization (Migrate & Seed)
+Enter the API directory, push the schema to the database, and populate the initial "Golden Example (Regions)" data:
 ```bash
 cd apps/api
 bun run db:push
 bun run db:seed
 ```
 
-### 5. 启动全栈开发环境
-回到项目根目录，利用 Turborepo 一键启动前后端：
+### 5. Start the Full-Stack Development Environment
+Return to the project root and start the frontend and backend simultaneously using Turborepo:
 ```bash
 bun run dev
 ```
-- **Web 前端**: `http://localhost:3000`
-- **API 后端**: `http://localhost:9999`
-- **API 文档 (Scalar)**: `http://localhost:9999/reference`
+- **Web Frontend**: `http://localhost:3000`
+- **API Backend**: `http://localhost:9999`
+- **API Documentation (Scalar)**: `http://localhost:9999/reference`
 
 ---
 
-## 🏗 目录结构指南 (Explanation)
+## 🏗 Directory Structure Guide (Explanation)
 
 ```text
 .
 ├── apps/
-│   ├── api/            # Hono 后端服务 (对外暴露 OpenAPI 与 Client 导出)
-│   └── web/            # TanStack Start 前端 (通过 api workspace 引入后端类型)
-├── packages/           # 预留的共享包目录 (可用于抽取 UI 库或 DB 库)
-├── package.json        # 根依赖与 Workspaces 定义
-├── turbo.json          # Turborepo 构建流水线配置
-└── rules.md            # 项目级别的核心架构规范与军规 (Agent 必读)
+│   ├── api/            # Hono backend service (exposes OpenAPI and Client export)
+│   └── web/            # TanStack Start frontend (imports backend types via api workspace)
+├── packages/           # Reserved shared package directory (for UI libraries or DB libraries)
+├── package.json        # Root dependencies and Workspaces definition
+├── turbo.json          # Turborepo build pipeline configuration
+└── rules.md            # Project-level core architectural rules (Must-read for Agents)
 ```
 
-### 端到端类型安全是如何工作的？
-1. 后端在 `apps/api/src/client.ts` 中导出带有完整路由和 Zod Schema 类型定义的 `AppType`。
-2. 前端通过 `package.json` 中的 workspace 依赖引入 API：`"api": "workspace:*"`。
-3. 前端使用 Hono 的 `hc` 客户端结合 `AppType` 发起请求，获得自动补全和类型校验。修改后端的返回值，前端类型会**即时报错**。
+### How does End-to-End Type Safety work?
+1. The backend exports an `AppType` containing complete routing and Zod Schema type definitions in `apps/api/src/client.ts`.
+2. The frontend imports the API via workspace dependencies in `package.json`: `"api": "workspace:*"`.
+3. The frontend uses Hono's `hc` client combined with `AppType` to make requests, gaining auto-completion and type validation. Modifying the backend's return value will cause the frontend types to **report errors immediately**.
 
-> ⚠️ **开发原则提醒**：在进行二次开发前，请务必阅读各自应用目录下的 `GEMINI.md` 或根目录的 `rules.md`。它们包含了本脚手架强制执行的架构规范。
+> ⚠️ **Development Principle Reminder**: Before starting secondary development, please be sure to read the `GEMINI.md` in the respective application directories or `rules.md` in the root directory. They contain the mandatory architectural specifications for this scaffolder.

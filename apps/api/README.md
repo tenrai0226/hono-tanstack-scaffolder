@@ -1,33 +1,33 @@
 # Scaffolder API (Hono + Drizzle + Better Auth)
 
-这是一个极速、类型安全、部署于边缘节点 (Edge-compatible) 的后端服务。
+A blazing-fast, type-safe backend service designed for edge environments (Edge-compatible).
 
-## 📖 核心架构解释 (Explanation)
+## 📖 Core Architectural Explanation
 
-本项目严格贯彻 **“四层路由架构”**，实现了高度解耦与契约优先（Contract-First）的设计：
+This project strictly adheres to the **"Four-Layer Routing Architecture"**, achieving high decoupling and a Contract-First design:
 
-1. **`*.routes.ts` (契约层)**: 仅负责定义 OpenAPI 的 Schema（输入/输出/路径），绝对不含业务逻辑。
-2. **`*.handlers.ts` (业务层)**: 实现真正的请求处理与数据库操作。它直接从契约层推断上下文类型。
-3. **`*.index.ts` (装配层)**: 将契约与业务绑定。
-4. **`*.test.ts` (测试层)**: 基于 Vitest 的真实集成测试，不采用黑盒 Mock。
+1. **`*.routes.ts` (Contract Layer)**: Responsible solely for defining the OpenAPI Schema (inputs/outputs/paths), containing absolutely no business logic.
+2. **`*.handlers.ts` (Business Layer)**: Implements the actual request processing and database operations. It infers context types directly from the contract layer.
+3. **`*.index.ts` (Assembly Layer)**: Binds the contracts with the business logic.
+4. **`*.test.ts` (Testing Layer)**: Real integration tests based on Vitest, avoiding black-box mocks.
 
 ---
 
-## 🛠 开发指南：如何构建新业务？(How-to Guide)
+## 🛠 Development Guide: How to Build New Business Logic? (How-to Guide)
 
-以项目中保留的“黄金示例” `regions` (地区) 为例，开发一个新模块的标准工作流如下：
+Using the retained "Golden Example" `regions` as a reference, here is the standard workflow for developing a new module:
 
-### Step 1: 数据库设计 (`src/db/schema`)
-在 `src/db/schema/` 下创建新的实体表，例如 `regions.ts`。使用 Drizzle 提供的类型。
-完成后，在 `src/db/schema/index.ts` 中导出该表。
-然后执行迁移：
+### Step 1: Database Design (`src/db/schema`)
+Create a new entity table under `src/db/schema/`, for example, `regions.ts`. Use types provided by Drizzle.
+Once complete, export the table in `src/db/schema/index.ts`.
+Then execute the migration:
 ```bash
 bunx drizzle-kit generate
 bunx drizzle-kit push
 ```
 
-### Step 2: 定义 API 契约 (`regions.routes.ts`)
-使用 `@hono/zod-openapi` 定义接口。
+### Step 2: Define the API Contract (`regions.routes.ts`)
+Define the interface using `@hono/zod-openapi`.
 ```typescript
 import { createRoute, z } from '@hono/zod-openapi'
 import { regionSchema } from '@/shared/schemas/region'
@@ -36,13 +36,13 @@ export const getOneRoute = createRoute({
   path: '/regions/{id}',
   method: 'get',
   responses: {
-    200: { description: '成功', content: { 'application/json': { schema: regionSchema } } },
+    200: { description: 'Success', content: { 'application/json': { schema: regionSchema } } },
   },
 })
 ```
 
-### Step 3: 编写业务逻辑 (`regions.handlers.ts`)
-引入对应的 DB Schema，编写处理函数。如果需要权限控制，注意 Handler 会基于 Route 的要求校验 Token。
+### Step 3: Write Business Logic (`regions.handlers.ts`)
+Import the corresponding DB Schema and write the handler function. If permission control is needed, note that the Handler will validate the Token based on the Route's requirements.
 ```typescript
 import type { RouteHandler } from '@hono/zod-openapi'
 import type { GetOneRoute } from './regions.routes'
@@ -55,23 +55,23 @@ export const getOneHandler: RouteHandler<GetOneRoute> = async (c) => {
 }
 ```
 
-### Step 4: 装配并暴露类型 (`regions.index.ts` & `src/app.ts`)
-将定义好的 Router 引入到 `src/app.ts` 中挂载，确保其加入到链式调用的 `AppType` 中。这保证了前端能获得完整的类型推断。
+### Step 4: Assemble and Export Types (`regions.index.ts` & `src/app.ts`)
+Mount the defined Router into `src/app.ts`, ensuring it is added to the chained `AppType` call. This guarantees the frontend receives complete type inference.
 
 ---
 
-## 📚 常用命令速查 (Reference)
+## 📚 Quick Command Reference
 
 ```bash
-# 生成并推送数据库表结构变更
+# Generate and push database schema changes
 bun run db:generate && bun run db:push
 
-# 运行集成测试 (基于 .env.test 独立数据库)
+# Run integration tests (based on the isolated .env.test database)
 bun run test
 
-# 执行类型检查 (验证 Zod Schema 与前端消费兼容性)
+# Execute type checking (verifies Zod Schema compatibility with frontend consumption)
 bun run typecheck
 
-# 代码格式化与修复
+# Code formatting and fixing
 bun run lint
 ```

@@ -1,24 +1,24 @@
 # Scaffolder Web (TanStack Start + HeroUI)
 
-基于 React 19 和 TanStack 现代生态构建的全栈 SSR 前端应用，专为 Cloudflare Pages (Edge Runtime) 设计。
+A full-stack SSR frontend application built with React 19 and the modern TanStack ecosystem, designed specifically for Cloudflare Pages (Edge Runtime).
 
-## 📖 核心特性解释 (Explanation)
+## 📖 Core Features Explanation
 
-### Edge Runtime 限制
-本应用运行在边缘计算节点（如 Cloudflare Workers），**禁止使用任何 Node.js 原生模块**（如 `fs`, `path`, `crypto`）。所有的代码（包括服务端 SSR 代码）都必须是环境无关的。
+### Edge Runtime Restrictions
+This application runs on edge computing nodes (e.g., Cloudflare Workers), **forbidding the use of any native Node.js modules** (like `fs`, `path`, `crypto`). All code (including server-side SSR code) must be environment-agnostic.
 
-### 路由与状态管理的结合
-- **TanStack Router**: 提供了基于文件的强类型路由。所有的路由都在 `src/routes` 目录下定义，`routeTree.gen.ts` 会自动生成。
-- **TanStack Query 预取**: 在 SSR 阶段，通过 Router 的 `loader` 预取数据并挂载到 Query Cache 中，到客户端时实现无缝的 Hydration，杜绝页面级的瀑布流 (Waterfall) 加载。
+### Integration of Routing and State Management
+- **TanStack Router**: Provides strongly-typed, file-based routing. All routes are defined in the `src/routes` directory, and `routeTree.gen.ts` is generated automatically.
+- **TanStack Query Prefetching**: During the SSR phase, data is prefetched via the Router's `loader` and mounted into the Query Cache, achieving seamless Hydration on the client side and eliminating page-level waterfall loading.
 
 ---
 
-## 🛠 开发指南：构建前端业务 (How-to Guide)
+## 🛠 Development Guide: Building Frontend Business Logic (How-to Guide)
 
-以项目中保留的“黄金示例” `admin/regions` 为例，构建高质量前端页面的工作流：
+Using the retained "Golden Example" `admin/regions` as a reference, here is the workflow for building high-quality frontend pages:
 
-### Step 1: 强类型数据获取
-不需要手写 fetch。利用从 `api` 工作区透传过来的 `authApiClient`：
+### Step 1: Strongly-Typed Data Fetching
+No manual `fetch` is needed. Utilize the `authApiClient` passed down from the `api` workspace:
 ```typescript
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { authApiClient, type SelectRegion } from 'api/client'
@@ -33,8 +33,8 @@ const { data } = useSuspenseQuery({
 })
 ```
 
-### Step 2: 使用 @tanstack/react-form 构建表单
-放弃传统的受控组件或 `react-hook-form`。为了实现最严谨的性能和类型校验，**必须使用 `@tanstack/react-form`** 结合 Zod：
+### Step 2: Building Forms with @tanstack/react-form
+Abandon traditional controlled components or `react-hook-form`. To achieve the most rigorous performance and type validation, **you must use `@tanstack/react-form`** combined with Zod:
 ```tsx
 import { useForm } from '@tanstack/react-form'
 
@@ -43,8 +43,8 @@ const form = useForm({
   onSubmit: async ({ value }) => { /* ... */ }
 })
 
-// 在 JSX 中
-<form.Field name="name" validators={{ onChange({ value }) { return !value ? '必填' : undefined } }}>
+// In JSX
+<form.Field name="name" validators={{ onChange({ value }) { return !value ? 'Required' : undefined } }}>
   {(field) => (
     <Input 
       value={field.state.value} 
@@ -54,22 +54,22 @@ const form = useForm({
 </form.Field>
 ```
 
-### Step 3: UI 与多语言 (i18n)
-- 组件优先使用 [HeroUI v3](https://v3.heroui.com/)（基于 React Aria，具备完整的无障碍支持）。
-- Tailwind CSS v4 负责原子化样式调整。
-- 使用 `useTranslations('Namespace')` 替代硬编码文本。
+### Step 3: UI and Multi-language (i18n)
+- Prioritize using [HeroUI v3](https://v3.heroui.com/) for components (built on React Aria, providing complete accessibility support).
+- Tailwind CSS v4 handles atomic styling adjustments.
+- Use `useTranslations('Namespace')` instead of hardcoding text.
 
 ---
 
-## 📚 常用命令速查 (Reference)
+## 📚 Quick Command Reference
 
 ```bash
-# 更新并生成最新的 TanStack 路由树 (开发时通常会自动执行)
+# Update and generate the latest TanStack route tree (usually runs automatically during dev)
 bunx @tanstack/router-cli generate
 
-# 执行 TypeScript 检查 (确保从 API 层引用的类型没有被打破)
+# Execute TypeScript checking (ensure types imported from the API layer are not broken)
 bun run typecheck
 
-# 运行 E2E 测试 (Playwright)
+# Run E2E tests (Playwright)
 bun run test:e2e
 ```
