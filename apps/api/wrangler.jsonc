@@ -29,9 +29,9 @@
     "NODE_ENV": "production",
     "LOG_LEVEL": "info",
     "MAINTENANCE_MODE": "false",
-    "API_URL": "https://tb2-api.fushou.cc",
-    "APP_URL": "https://tb2.fushou.cc",
+    "API_URL": "https://api.example.com",
+    "APP_URL": "https://example.com",
     "JWKS_CACHE_TTL_SECONDS": "7200",
-    "SENTRY_DSN": "https://40cda6a17ac385e5f5554f44d6dca1da@o4511279176024064.ingest.us.sentry.io/4511279200141312"
+    "SENTRY_DSN": "https://your-sentry-dsn@sentry.io/123456"
   }
 }

@@ -6,6 +6,6 @@
   "vars": {
     "VITE_API_URL": "http://localhost:9999",
     "VITE_BETTER_AUTH_URL": "http://localhost:9999/api/auth",
-    "VITE_SENTRY_DSN": "https://5dd479e5516caf2911a849c8160e27e6@o4511279176024064.ingest.us.sentry.io/4511284429783040"
+    "VITE_SENTRY_DSN": "https://your-sentry-dsn@sentry.io/123456"
   }
 }

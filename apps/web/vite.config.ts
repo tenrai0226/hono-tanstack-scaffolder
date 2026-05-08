@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => ({
       ? [
           cloudflare({ viteEnvironment: { name: 'ssr' } }),
           sentryVitePlugin({
-            org: 'japan-fushou-ltdco',
+            org: 'your-sentry-org',
             project: 'scaffolder-web',
             authToken: process.env.SENTRY_AUTH_TOKEN,
             telemetry: false,
