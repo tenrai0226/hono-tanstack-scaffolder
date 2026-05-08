@@ -8,21 +8,20 @@ export function Footer() {
         <div className="flex flex-col gap-8 py-10 md:flex-row md:justify-between">
           <div className="flex flex-col gap-3 max-w-xs">
             <LocalizedLink to="/" className="inline-flex items-center gap-2 font-semibold text-foreground">
-              <span className="text-lg font-bold tracking-tight">TB2 Tabelog Buddy</span>
+              <span className="text-lg font-bold tracking-tight">Scaffolder</span>
             </LocalizedLink>
             <p className="text-sm text-stone-500 leading-relaxed">
-              Discover Japan's best restaurants without language barriers.
+              A modern Edge-native full-stack scaffolder built with Hono and TanStack Start.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             <div>
               <h3 className="mb-3 text-xs font-semibold text-foreground uppercase tracking-wider">
-                Discovery
+                Product
               </h3>
               <ul className="space-y-2">
-                <li><LocalizedLink to="/discovery" className="text-sm text-stone-500 hover:text-primary transition-colors">Map Search</LocalizedLink></li>
-                <li><LocalizedLink to="/dashboard" className="text-sm text-stone-500 hover:text-primary transition-colors">My Favorites</LocalizedLink></li>
+                <li><LocalizedLink to="/admin" className="text-sm text-stone-500 hover:text-primary transition-colors">Admin Panel</LocalizedLink></li>
               </ul>
             </div>
             <div>
@@ -45,7 +44,7 @@ export function Footer() {
             {' '}
             {new Date().getFullYear()}
             {' '}
-            TB2. All rights reserved.
+            Scaffolder. All rights reserved.
           </p>
         </div>
       </div>

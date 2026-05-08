@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-router'
 import * as React from 'react'
 import { Toaster } from 'sonner'
-// TB2 错误边界预留，如果您有自定义的组件请替换，这里用原生 fallback
+// Scaffolder 错误边界预留，如果您有自定义的组件请替换，这里用原生 fallback
 import { DefaultCatchBoundary } from '~/components/errors/default-catch-boundary'
 import { NotFound404 } from '~/components/errors/not-found-404'
 import { DefaultPending } from '~/components/misc/default-pending'

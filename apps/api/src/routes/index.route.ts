@@ -12,17 +12,15 @@ const router = createRouter().openapi(
     path: '/',
     responses: {
       [HttpStatusCodes.OK]: jsonContent(
-        createMessageObjectSchema('TB2 API'),
-        'TB2 API Index',
+        createMessageObjectSchema('Scaffolder API'),
+        'Scaffolder API Index',
       ),
     },
   }),
   (c) => {
-    // const logger = c.get("logger");
-    // logger.info("TB2 API Index, hello, world!!!");
     return c.json(
       {
-        message: 'TB2 API',
+        message: 'Scaffolder API',
       },
       HttpStatusCodes.OK,
     )

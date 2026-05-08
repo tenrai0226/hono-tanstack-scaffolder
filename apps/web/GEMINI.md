@@ -1,4 +1,4 @@
-# Web Frontend Development Iron Rules (TB2)
+# Web Frontend Development Iron Rules (Scaffolder)
 
 This document outlines the core technology stack and mandatory development rules for the `apps/web` frontend project.
 

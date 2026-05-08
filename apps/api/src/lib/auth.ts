@@ -12,7 +12,7 @@ export const auth = betterAuth({
     usePlural: true,
   }),
   advanced: {
-    cookiePrefix: 'tb2-session',
+    cookiePrefix: 'scaffolder-session',
     cookieCache: {
       enabled: true,
       maxAge: 5 * 60, // 5 分钟

@@ -155,18 +155,12 @@ ${urls}
   }
 
   if (url.pathname === '/llms.txt') {
-    const body = `# TB2 Discovery
-> TB2 Discovery is a multilingual restaurant discovery platform focused on Japan's Hyakumeiten (Top 100) restaurants. It features an interactive map, category filtering, and multi-language support (Chinese, English, Japanese, Korean).
+    const body = `# Scaffolder
+> A modern Edge-native full-stack scaffolder built with Hono and TanStack Start.
 
 ## Key Pages
-- [Home](${SITE_URL}/): Product overview and featured categories
-- [Discovery](${SITE_URL}/discovery): Interactive map-based restaurant exploration
-
-## Supported Languages
-- Chinese (Simplified & Traditional)
-- English
-- Japanese
-- Korean
+- [Home](${SITE_URL}/): Welcome page
+- [Admin](${SITE_URL}/admin): Admin control panel
 `
     return new Response(body, {
       status: 200,

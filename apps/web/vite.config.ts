@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => ({
           cloudflare({ viteEnvironment: { name: 'ssr' } }),
           sentryVitePlugin({
             org: 'japan-fushou-ltdco',
-            project: 'tb2-web',
+            project: 'scaffolder-web',
             authToken: process.env.SENTRY_AUTH_TOKEN,
             telemetry: false,
             sourcemaps: {

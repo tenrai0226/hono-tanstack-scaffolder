@@ -40,7 +40,7 @@ export function AdminLayout({ children }: { children?: React.ReactNode }) {
       <Surface variant="default" className="hidden lg:flex flex-col w-64 border-r border-divider sticky top-0 h-screen">
         <div className="p-6">
           <Link to="/dashboard" className="flex items-center gap-2 font-bold text-2xl tracking-tighter">
-            <span className="text-primary">TB2</span>
+            <span className="text-primary">Scaffolder</span>
             {' '}
             Admin
           </Link>

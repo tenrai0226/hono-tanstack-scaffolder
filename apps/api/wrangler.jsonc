@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tb2-api",
+  "name": "scaffolder-api",
   "main": "src/worker.ts",
   "compatibility_date": "2025-01-01",
   "compatibility_flags": [

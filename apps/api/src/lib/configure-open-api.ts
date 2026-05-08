@@ -9,7 +9,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
     openapi: '3.0.0',
     info: {
       version: packageJSON.version,
-      title: 'TB2 API',
+      title: 'Scaffolder API',
     },
   })
 
@@ -32,7 +32,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
       sources: [
         {
           url: '/doc',
-          title: 'TB2 API',
+          title: 'Scaffolder API',
         },
         {
           url: '/api/auth/open-api/generate-schema',

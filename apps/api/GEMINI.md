@@ -1,4 +1,4 @@
-# Hono API 开发现范体系 (TB2)
+# Hono API 开发现范体系 (Scaffolder)
 
 针对 `apps/api` 的 Hono.js 后端服务体系，基于 `bukai` 项目最佳实践深度重构：
 

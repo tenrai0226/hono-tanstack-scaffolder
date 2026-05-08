@@ -1,9 +1,9 @@
 import { defaultLocale as appDefaultLocale, supportedLocales as appLocales } from '~/lib/i18n/shared'
 
 const SITE_URL = import.meta.env.VITE_APP_URL || 'http://localhost:3000'
-const SITE_NAME = 'TB2 Discovery'
+const SITE_NAME = 'Scaffolder'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`
-const TWITTER_SITE = '@TB2_Discovery'
+const TWITTER_SITE = '@scaffolder'
 
 interface SeoOptions {
   title: string
