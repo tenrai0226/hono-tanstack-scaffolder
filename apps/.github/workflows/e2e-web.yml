@@ -1,0 +1,94 @@
+name: Web E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/web/**'
+      - 'apps/api/**'
+      - '.github/workflows/e2e-web.yml'
+
+jobs:
+  test:
+    name: Playwright E2E
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Install Playwright Browsers
+        working-directory: ./apps/web
+        run: bunx playwright install --with-deps chromium
+
+      - name: Create Ephemeral Neon Branch
+        id: create-branch
+        uses: neondatabase/create-branch-action@v5
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch_name: e2e-test-${{ github.run_id }}
+          parent: dev
+          username: neondb_owner # ⚠️ 如果您的 Neon 默认用户名不是 neondb_owner，请将其替换为实际名称或使用 ${{ secrets.NEON_USERNAME }}
+
+      - name: Initialize Environment Variables
+        run: |
+          echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}" > .env.local
+          echo "BETTER_AUTH_SECRET=test-secret" >> .env.local
+          echo "BETTER_AUTH_URL=http://localhost:8999" >> .env.local
+          echo "APP_URL=http://localhost:4456" >> .env.local
+          echo "API_URL=http://localhost:8999" >> .env.local
+          echo "UPSTASH_REDIS_REST_URL=http://localhost:6379" >> .env.local
+
+      - name: Push Database Schema
+        working-directory: ./apps/api
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url }}
+        run: bun run db:push
+
+      - name: Run E2E Tests
+        working-directory: ./apps/web
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url }}
+          UPSTASH_REDIS_REST_URL: http://localhost:6379
+        run: bun run test:e2e --project=chromium
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 7
+
+      - name: Cleanup Neon Branch
+        uses: neondatabase/delete-branch-action@v3
+        if: always()
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch: e2e-test-${{ github.run_id }}

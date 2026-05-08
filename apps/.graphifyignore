@@ -1,0 +1,34 @@
+# Environment and sensitive data
+.env
+.env.*
+!.env.example
+
+# Documentation (Skipping markdown to speed up indexing as requested)
+**/*.md
+**/docs/**
+**/openspec/**
+**/graphify-out/**
+
+# Dependencies and built assets
+node_modules/
+**/node_modules/**
+**/dist/**
+**/build/**
+**/out/**
+**/.next/**
+**/.turbo/**
+
+# Logs
+**/logs/**
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun.lock*
+
+# System and IDE
+.DS_Store
+.vscode/
+.idea/
+.agent/
+.gemini/

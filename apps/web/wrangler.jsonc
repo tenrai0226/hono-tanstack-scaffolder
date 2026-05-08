@@ -1,0 +1,11 @@
+{
+  "name": "web",
+  "pages_build_output_dir": "./dist/client",
+  "compatibility_date": "2024-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "VITE_API_URL": "http://localhost:9999",
+    "VITE_BETTER_AUTH_URL": "http://localhost:9999/api/auth",
+    "VITE_SENTRY_DSN": "https://5dd479e5516caf2911a849c8160e27e6@o4511279176024064.ingest.us.sentry.io/4511284429783040"
+  }
+}

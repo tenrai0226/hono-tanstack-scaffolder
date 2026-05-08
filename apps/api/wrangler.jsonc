@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tb2-api",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-01-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "preview_urls": false,
+  "upload_source_maps": true,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
+  },
+  // 以下为非机密的静态环境变量
+  // 机密环境变量（如 DATABASE_URL 等）请使用 wrangler secret put 设置
+  "vars": {
+    "NODE_ENV": "production",
+    "LOG_LEVEL": "info",
+    "MAINTENANCE_MODE": "false",
+    "API_URL": "https://tb2-api.fushou.cc",
+    "APP_URL": "https://tb2.fushou.cc",
+    "JWKS_CACHE_TTL_SECONDS": "7200",
+    "SENTRY_DSN": "https://40cda6a17ac385e5f5554f44d6dca1da@o4511279176024064.ingest.us.sentry.io/4511279200141312"
+  }
+}

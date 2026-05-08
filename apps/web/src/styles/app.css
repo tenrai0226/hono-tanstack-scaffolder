@@ -1,0 +1,120 @@
+@import 'tailwindcss';
+@import '@heroui/styles';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/noto-sans-sc';
+@import '@fontsource-variable/noto-sans-jp';
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  /* 中文字体（默认） */
+  html[lang^='zh'],
+  html:not([lang]) {
+    --font-sans: 'Noto Sans SC Variable', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimHei', '黑体', sans-serif;
+  }
+
+  /* 日文字体 */
+  html[lang='ja'] {
+    --font-sans:
+      'Noto Sans JP Variable', 'Yu Gothic', '游ゴシック', 'Meiryo', 'メイリオ', 'Hiragino Kaku Gothic ProN',
+      'ヒラギノ角ゴ ProN W3', sans-serif;
+  }
+
+  /* 英文字体 */
+  html[lang='en'] {
+    --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    color-scheme: light dark;
+  }
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-surface: var(--surface);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+}
+
+:root {
+  /* The Floating Curator Design System */
+  --background: #f9f9ff;
+  --foreground: #141b2b;
+
+  --primary: #b61722;
+  --primary-container: #da3437;
+  --primary-foreground: #ffffff;
+
+  --secondary: #585f6a;
+  --secondary-foreground: #ffffff;
+
+  --accent: #ef4444; /* Appetizing Red */
+  --accent-foreground: #ffffff;
+
+  --surface: #f9f9ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f1f3ff;
+  --surface-container-high: #e1e8fd;
+
+  --danger: #ba1a1a;
+  --danger-foreground: #ffffff;
+}
+
+.dark {
+  /* Dark Mode Adaptation for The Floating Curator */
+  --background: #141b2b;
+  --foreground: #f9f9ff;
+
+  --primary: #da3437;
+  --primary-container: #b61722;
+  --primary-foreground: #ffffff;
+
+  --secondary: #dce3f0;
+  --secondary-foreground: #141b2b;
+
+  --accent: #ef4444;
+  --accent-foreground: #ffffff;
+
+  --surface: #141b2b;
+  --surface-container-lowest: #1f2937;
+  --surface-container-low: #374151;
+  --surface-container-high: #4b5563;
+
+  --danger: #ffdad6;
+  --danger-foreground: #93000a;
+}
+
+/* 支持 prefers-reduced-motion：减少动画和过渡效果 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

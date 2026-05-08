@@ -1,0 +1,15 @@
+{
+  "SIGN_IN": "Sign In",
+  "SIGN_UP": "Sign Up",
+  "SIGN_OUT": "Sign Out",
+  "FORGOT_PASSWORD": "Forgot Password",
+  "EMAIL": "Email",
+  "PASSWORD": "Password",
+  "SUBMIT": "Submit",
+  "CONTINUE": "Continue",
+  "OR_CONTINUE_WITH": "or continue with",
+  "ALREADY_HAVE_AN_ACCOUNT": "Already have an account?",
+  "DONT_HAVE_AN_ACCOUNT": "Don't have an account?",
+  "INVALID_EMAIL_OR_PASSWORD": "Invalid email or password.",
+  "EMAIL_ALREADY_EXISTS": "Email already exists."
+}

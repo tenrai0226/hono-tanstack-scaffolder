@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build and Caches
+.turbo/
+dist/
+.output/
+.vinxi/
+.wrangler/
+*.tsbuildinfo
+
+# Logs
+*.log
+logs/
+
+# OS Files
+.DS_Store
+.DS_STORE
+Thumbs.db
+
+# IDEs
+.vscode/
+!.vscode/extensions.json
+.idea/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production
+.env.test
+
+# Local DBs
+*.db
+
+# graphify
+graphify-out/
+
+# Test coverage
+coverage/
+
+# Misc generated files
+nohup.out
+.markdownlint.json
+
+# Stitch design artifacts
+.stitch/

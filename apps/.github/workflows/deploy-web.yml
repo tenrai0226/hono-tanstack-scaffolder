@@ -1,0 +1,64 @@
+name: Deploy Web
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+      - '.github/workflows/deploy-web.yml'
+
+jobs:
+  deploy:
+    name: Build and Deploy to Cloudflare Workers
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./apps/web
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Sentry set-commits 需要完整 git 历史
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # Monorepo 根目录安装依赖（确保 workspace 链接正确解析）
+      - name: Install Dependencies
+        working-directory: .
+        run: bun install
+
+      # 构建：@sentry/vite-plugin 会在 build 期间自动上传 Source Maps
+      - name: Build
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          VITE_GIT_SHA: ${{ github.sha }}
+          VITE_SENTRY_ENV: production
+        run: vite build && tsc --noEmit
+
+      # 删除 SourceMaps 防止泄露生产源码
+      - name: Clean SourceMaps
+        run: find dist -name "*.map" -type f -delete
+
+      # 部署到 Cloudflare Workers
+      - name: Deploy to Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: bunx wrangler deploy
+
+      # 关联 Sentry Release 与 Git Commits（可选但推荐，启用 Suspect Commits 功能）
+      - name: Finalize Sentry Release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        run: |
+          bunx sentry-cli releases new -p tb2-web -p tb2-api ${{ github.sha }}
+          bunx sentry-cli releases set-commits --auto ${{ github.sha }}
+          bunx sentry-cli releases finalize ${{ github.sha }}
